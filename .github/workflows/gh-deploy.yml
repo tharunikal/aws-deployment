@@ -18,7 +18,7 @@ jobs:
 
       - name: Building project
         env:
-          NODE_OPTIONS: --openssl-legacy-provider  # To handle any Node.js OpenSSL issues
+          NODE_OPTIONS: --openssl-legacy-provider  
         run: npm run build
 
       - name: Running tests (Skip if no tests are found)
