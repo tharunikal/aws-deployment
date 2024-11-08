@@ -6,7 +6,6 @@ permissions:
   contents: write
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
 
@@ -19,9 +18,9 @@ jobs:
       with:
         node-version: '18'
 
+    
     - name: Set NODE_OPTIONS
-      run: |
-        echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_OUTPUT
+      run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
 
     - name: Installing NPM packages
       run: npm ci
