@@ -10,29 +10,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
+      - name: Installing NPM packages
+        run: npm ci
 
-    
-    - name: Set NODE_OPTIONS
-      run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
+      - name: Building project
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider  # To handle any Node.js OpenSSL issues
+        run: npm run build
 
-    - name: Installing NPM packages
-      run: npm ci
+      - name: Running tests (Skip if no tests are found)
+        run: npm test -- --passWithNoTests
 
-    - name: Building project
-      run: npm run build
-
-    - name: Uploading production-ready build files
-      uses: actions/upload-artifact@v4.4.3
-      with:
-        name: production-files
-        path: ./build
+      - name: Uploading production-ready build files
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: production-files
+          path: ./build
 
   deploy:
     name: Deploy
@@ -40,14 +36,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Downloading artifact
-      uses: actions/download-artifact@v4.1.8
-      with:
-        name: production-files
-        path: ./build
+      - name: Downloading artifact
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: production-files
+          path: ./build
 
-    - name: Deploying to gh-pages
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build
+      - name: Deploying to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+
+     
