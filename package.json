@@ -1,7 +1,7 @@
 {
   "name": "developer-cards",
   "version": "1.0.0",
-   "homepage": "https://tharunikal.github.io/developer-cards-react-app/",
+   "homepage": "https://tharunikal.github.io/aws-deployment/",
   "private": true,
   "dependencies": {
     "react": "^17.0.2",
